@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,6 +45,17 @@ public class ShoppingItemController {
 	@PostMapping("/shoppingItem")
 	public ShoppingItem saveShoppingItem(@RequestBody ShoppingItem shoppingItem) {
 		return repository.save(shoppingItem);
+	}
+	
+	@PostMapping("/shoppingItens")
+	public List<ShoppingItem> saveShoppingItens(@RequestBody List<ShoppingItem> shoppingItens) {
+		List<ShoppingItem> itensSalvos = new ArrayList<>();
+		
+		shoppingItens.forEach(shoppingItem ->{
+			itensSalvos.add(repository.save(shoppingItem));
+		});
+		
+		return itensSalvos;
 	}
 	
 	@PutMapping("/shoppingItem/{id}")
