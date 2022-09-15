@@ -1,10 +1,14 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -29,8 +33,12 @@ public class ShoppingItemController {
 	}
 	
 	@GetMapping("/shoppingItem/{id}")
-	public ShoppingItem getShoppingItemById(@PathVariable Long id) {
-		return repository.findById(id).get();
+	public ResponseEntity<ShoppingItem> getShoppingItemById(@PathVariable Long id) {
+		Optional<ShoppingItem> shoppingItem = repository.findById(id);
+		if(!shoppingItem.isPresent()) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(shoppingItem.get(), HttpStatus.OK);
 	}
 	
 	@PostMapping("/shoppingItem")
@@ -44,11 +52,7 @@ public class ShoppingItemController {
 			@PathVariable Long id) {
 		return repository.findById(id)
 				.map(shoppingItem -> {
-					shoppingItem.setName(newShoppingItem.getName());
-					shoppingItem.setBrand(newShoppingItem.getBrand());
-					shoppingItem.setType(newShoppingItem.getType());
-					shoppingItem.setPrice(newShoppingItem.getPrice());
-					return repository.save(shoppingItem);
+					return updateItem(shoppingItem, newShoppingItem);
 				})
 				.orElseGet(() -> {
 					newShoppingItem.setId(id);
@@ -57,9 +61,40 @@ public class ShoppingItemController {
 		
 	}
 	
+	@PatchMapping("/shoppingItem/{id}")
+	public ResponseEntity<ShoppingItem> patchShoppingItem(
+			@RequestBody ShoppingItem newShoppingItem,
+			@PathVariable Long id) {
+		
+		Optional<ShoppingItem> optional = repository.findById(id);
+		
+		if(!optional.isPresent()) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<>(optional
+				.map(shoppingItem -> {
+					return updateItem(shoppingItem, newShoppingItem);
+				}).get(),
+				HttpStatus.OK);
+		
+	}
+	
 	@DeleteMapping("/shoppingItem/{id}")
-	public void deleteShoppingItem(@PathVariable Long id) {
+	public ResponseEntity<Void> deleteShoppingItem(@PathVariable Long id) {
+		if(!repository.findById(id).isPresent()) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
 		repository.deleteById(id);
+		return new ResponseEntity<>(null, HttpStatus.OK);
+	}
+	
+	private ShoppingItem updateItem(ShoppingItem shoppingItem, ShoppingItem newShoppingItem) {
+		shoppingItem.setName(newShoppingItem.getName());
+		shoppingItem.setBrand(newShoppingItem.getBrand());
+		shoppingItem.setType(newShoppingItem.getType());
+		shoppingItem.setPrice(newShoppingItem.getPrice());
+		return repository.save(shoppingItem);
 	}
 	
 }
