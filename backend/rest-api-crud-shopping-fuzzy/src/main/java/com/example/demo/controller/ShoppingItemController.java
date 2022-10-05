@@ -104,6 +104,7 @@ public class ShoppingItemController {
 		shoppingItem.setBrand(newShoppingItem.getBrand());
 		shoppingItem.setType(newShoppingItem.getType());
 		shoppingItem.setPrice(newShoppingItem.getPrice());
+		shoppingItem.setImage(newShoppingItem.getImage());
 		return repository.save(shoppingItem);
 	}
 	

@@ -22,5 +22,6 @@ public class ShoppingItem {
 	String brand;
 	String type;
 	Double price;
+	String image;
 	
 }
