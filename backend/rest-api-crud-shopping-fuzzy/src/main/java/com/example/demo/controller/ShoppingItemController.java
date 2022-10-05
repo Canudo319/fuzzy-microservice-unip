@@ -22,6 +22,7 @@ import com.example.demo.repository.ShoppingItemRepository;
 
 import lombok.AllArgsConstructor;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @AllArgsConstructor
 public class ShoppingItemController {
@@ -29,13 +30,12 @@ public class ShoppingItemController {
 	@Autowired
 	ShoppingItemRepository repository;
 	
-	@CrossOrigin(origins = "http://localhost:4200")
+	
 	@GetMapping("/shoppingItem")
 	public List<ShoppingItem> getAllShoppingItens(){
 		return repository.findAll();
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200")
 	@GetMapping("/shoppingItem/{id}")
 	public ResponseEntity<ShoppingItem> getShoppingItemById(@PathVariable Long id) {
 		Optional<ShoppingItem> shoppingItem = repository.findById(id);
@@ -45,7 +45,6 @@ public class ShoppingItemController {
 		return new ResponseEntity<>(shoppingItem.get(), HttpStatus.OK);
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/shoppingItems")
 	public List<ShoppingItem> saveShoppingItens(@RequestBody List<ShoppingItem> shoppingItens) {
 		List<ShoppingItem> itensSalvos = new ArrayList<>();
@@ -57,7 +56,6 @@ public class ShoppingItemController {
 		return itensSalvos;
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200")
 	@PutMapping("/shoppingItem/{id}")
 	public ShoppingItem putShoppingItem(
 			@RequestBody ShoppingItem newShoppingItem,
@@ -73,7 +71,6 @@ public class ShoppingItemController {
 		
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200")
 	@PatchMapping("/shoppingItem/{id}")
 	public ResponseEntity<ShoppingItem> patchShoppingItem(
 			@RequestBody ShoppingItem newShoppingItem,
@@ -93,7 +90,6 @@ public class ShoppingItemController {
 		
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200")
 	@DeleteMapping("/shoppingItem/{id}")
 	public ResponseEntity<Void> deleteShoppingItem(@PathVariable Long id) {
 		if(!repository.findById(id).isPresent()) {
