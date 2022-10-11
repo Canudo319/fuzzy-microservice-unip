@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationStartedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,6 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entities.ShoppingItem;
 import com.example.demo.repository.ShoppingItemRepository;
+import com.example.demo.util.ShoppingItemsStarterData;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.AllArgsConstructor;
 
@@ -30,6 +36,20 @@ public class ShoppingItemController {
 	@Autowired
 	ShoppingItemRepository repository;
 	
+	@EventListener
+	public void eventListener(ApplicationStartedEvent event) {
+		ObjectMapper mapper = new ObjectMapper();
+		
+		try {
+			List<ShoppingItem> shoppingItens = mapper.readValue(
+					ShoppingItemsStarterData.data,
+					new TypeReference<List<ShoppingItem>>(){}
+				);
+			saveShoppingItens(shoppingItens);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	@GetMapping("/shoppingItem")
 	public List<ShoppingItem> getAllShoppingItens(){
