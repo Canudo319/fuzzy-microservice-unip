@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationStartedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entities.Supplier;
 import com.example.demo.repository.SupplierRepository;
+import com.example.demo.util.SuppliersStarterData;
 
 import lombok.AllArgsConstructor;
 
@@ -29,6 +32,11 @@ public class SupplierController {
 	
 	@Autowired
 	SupplierRepository repository;
+	
+	@EventListener
+	public void eventListener(ApplicationStartedEvent event) {
+		saveSuppliers(SuppliersStarterData.getData());
+	}
 	
 	@GetMapping("/supplier")
 	public List<Supplier> getAllSupliers(){
@@ -45,7 +53,7 @@ public class SupplierController {
 	}
 	
 	@PostMapping("/suppliers")
-	public List<Supplier> saveShoppingItens(@RequestBody List<Supplier> suppliers) {
+	public List<Supplier> saveSuppliers(@RequestBody List<Supplier> suppliers) {
 		List<Supplier> itensSalvos = new ArrayList<>();
 		
 		suppliers.forEach(supplier ->{
@@ -56,7 +64,7 @@ public class SupplierController {
 	}
 	
 	@PutMapping("/supplier/{id}")
-	public Supplier putShoppingItem(
+	public Supplier putSupplier(
 			@RequestBody Supplier newSupplier,
 			@PathVariable Long id) {
 		return repository.findById(id)
@@ -71,7 +79,7 @@ public class SupplierController {
 	}
 	
 	@PatchMapping("/supplier/{id}")
-	public ResponseEntity<Supplier> patchShoppingItem(
+	public ResponseEntity<Supplier> patchSupplier(
 			@RequestBody Supplier newSupplier,
 			@PathVariable Long id) {
 		
@@ -90,7 +98,7 @@ public class SupplierController {
 	}
 	
 	@DeleteMapping("/supplier/{id}")
-	public ResponseEntity<Void> deleteShoppingItem(@PathVariable Long id) {
+	public ResponseEntity<Void> deleteSupplier(@PathVariable Long id) {
 		if(!repository.findById(id).isPresent()) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}

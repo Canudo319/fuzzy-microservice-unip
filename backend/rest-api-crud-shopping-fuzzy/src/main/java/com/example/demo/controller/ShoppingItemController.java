@@ -22,9 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.entities.ShoppingItem;
 import com.example.demo.repository.ShoppingItemRepository;
 import com.example.demo.util.ShoppingItemsStarterData;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.AllArgsConstructor;
 
@@ -38,17 +35,7 @@ public class ShoppingItemController {
 	
 	@EventListener
 	public void eventListener(ApplicationStartedEvent event) {
-		ObjectMapper mapper = new ObjectMapper();
-		
-		try {
-			List<ShoppingItem> shoppingItens = mapper.readValue(
-					ShoppingItemsStarterData.data,
-					new TypeReference<List<ShoppingItem>>(){}
-				);
-			saveShoppingItens(shoppingItens);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
+		saveShoppingItens(ShoppingItemsStarterData.getData());
 	}
 	
 	@GetMapping("/shoppingItem")

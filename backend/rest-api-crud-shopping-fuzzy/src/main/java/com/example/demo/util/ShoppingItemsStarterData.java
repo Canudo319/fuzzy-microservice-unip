@@ -1,7 +1,15 @@
 package com.example.demo.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.example.demo.entities.ShoppingItem;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class ShoppingItemsStarterData {
-	public static String data = """
+	private static String data = """
 [
 	{
 		"name": "Bolacha Wafer Avelã",
@@ -75,4 +83,15 @@ public class ShoppingItemsStarterData {
 	}
 ]
 			""";
+	
+	public static List<ShoppingItem> getData() {
+		ObjectMapper mapper = new ObjectMapper();
+		List<ShoppingItem> shoppingItens = new ArrayList<>();
+		try {
+			shoppingItens = mapper.readValue(data, new TypeReference<List<ShoppingItem>>(){});
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return shoppingItens;
+	}
 }
