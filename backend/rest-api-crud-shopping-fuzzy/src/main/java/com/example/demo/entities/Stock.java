@@ -13,15 +13,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ShoppingItem {
-	
+public class Stock {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
-	String name;
-	String brand;
-	String type;
-	Double price;
-	String image;
-	
+	Long shoppingItemId;
+	Long supplierId;
+	Integer stock;
 }
