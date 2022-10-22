@@ -5,9 +5,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class DefaultReturn<T> {
-	String message;
-	T data;
+@NoArgsConstructor
+public class UserPreferences {
+	Long preferedItem;
+	Double latitude;
+	Double longitude;
+	String preference;
 }

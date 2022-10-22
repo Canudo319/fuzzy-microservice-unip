@@ -20,4 +20,5 @@ public class Stock {
 	Long shoppingItemId;
 	Long supplierId;
 	Integer stock;
+	Double price;
 }

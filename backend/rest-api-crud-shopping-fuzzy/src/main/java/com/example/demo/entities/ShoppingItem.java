@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "TBL_SHOPPING_ITEM")
 public class ShoppingItem {
 	
 	@Id
@@ -21,7 +23,6 @@ public class ShoppingItem {
 	String name;
 	String brand;
 	String type;
-	Double price;
 	String image;
 	
 }
