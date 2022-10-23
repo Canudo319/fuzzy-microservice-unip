@@ -19,9 +19,7 @@ import com.example.demo.bean.StockAtratividade;
 import com.example.demo.bean.UserPreferences;
 import com.example.demo.entities.ShoppingItem;
 import com.example.demo.entities.Stock;
-import com.example.demo.repository.ShoppingItemRepository;
 import com.example.demo.repository.StockRepository;
-import com.example.demo.repository.SupplierRepository;
 import com.example.demo.util.FuzzyLogicBestItems;
 
 import lombok.AllArgsConstructor;
@@ -33,10 +31,6 @@ public class StockController {
 	
 	@Autowired
 	StockRepository repository;
-	@Autowired
-	ShoppingItemRepository repositoryItens;
-	@Autowired
-	SupplierRepository repositorySuppliers;
 	
 	@GetMapping("/stock")
 	public List<Stock> getAllStocks(){
@@ -65,8 +59,7 @@ public class StockController {
 	public DefaultReturn<List<StockAtratividade>> getBestItens(@RequestBody UserPreferences preferences){
 		return FuzzyLogicBestItems.fuzzyfy(
 				preferences,
-				getStockByItem(preferences.getPreferedItem()).getBody(),
-				repositorySuppliers.findAll()
+				getStockByItem(preferences.getPreferedItem()).getBody()
 			);
 	}
 	
@@ -83,15 +76,12 @@ public class StockController {
 				);			
 		}
 		
-		Optional<ShoppingItem> item = repositoryItens.findById(stock.get().getShoppingItemId());
-		if(!item.isPresent()) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		}
+		ShoppingItem item = stock.get().getShoppingItem();
 		
 		stock.get().setStock(stock.get().getStock() - 1);
 		repository.save(stock.get());
 		return new ResponseEntity<>(
-				new DefaultReturn<>("Sucesso", item.get()),
+				new DefaultReturn<>("Sucesso", item),
 				HttpStatus.OK
 			);
 	}
@@ -102,8 +92,8 @@ public class StockController {
 		
 		suppliers.forEach(supplier ->{
 			Optional<Stock> optional = repository.findDuplicate(
-					supplier.getShoppingItemId(),
-					supplier.getSupplierId()
+					supplier.getShoppingItem().getId(),
+					supplier.getSupplier().getId()
 				);
 			if(optional.isPresent()) {
 				optional.get().setStock(optional.get().getStock() + supplier.getStock());

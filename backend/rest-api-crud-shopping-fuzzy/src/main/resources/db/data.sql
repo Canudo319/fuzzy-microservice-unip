@@ -12,3 +12,12 @@ INSERT INTO TBL_SHOPPING_ITEM (name,brand,type,image) VALUES ('Achocolatado em p
 INSERT INTO TBL_SUPPLIER(name,latitude,longitude) VALUES ('Mercadinho do zé',20,30);
 INSERT INTO TBL_SUPPLIER(name,latitude,longitude) VALUES ('Mercearia da maria',40,40);
 INSERT INTO TBL_SUPPLIER(name,latitude,longitude) VALUES ('Mercadão do Tonhão',5,60);
+INSERT INTO TBL_SUPPLIER(name,latitude,longitude) VALUES ('O Grande Mercado de Cidadezoplis',190,120);
+
+INSERT INTO TBL_STOCK(item_id,supplier_id,stock,price) VALUES (1,1,10,3.99);
+INSERT INTO TBL_STOCK(item_id,supplier_id,stock,price) VALUES (2,2,20,4.99);
+INSERT INTO TBL_STOCK(item_id,supplier_id,stock,price) VALUES (2,2,40,4.57);
+INSERT INTO TBL_STOCK(item_id,supplier_id,stock,price) VALUES (3,3,40,3.99);
+INSERT INTO TBL_STOCK(item_id,supplier_id,stock,price) VALUES (3,2,50,2.99);
+
+

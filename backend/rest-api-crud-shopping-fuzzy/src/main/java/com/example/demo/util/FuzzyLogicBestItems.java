@@ -2,7 +2,6 @@ package com.example.demo.util;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import com.example.demo.bean.DefaultReturn;
 import com.example.demo.bean.StockAtratividade;
@@ -14,22 +13,17 @@ import com.example.demo.entities.Supplier;
 public class FuzzyLogicBestItems {
 	
 	public static DefaultReturn<List<StockAtratividade>> fuzzyfy(UserPreferences preferences,
-			List<Stock> stocks,
-			List<Supplier> suppliers){
+			List<Stock> stocks){
 		
 		ArrayList<StockAtratividade> stocksFuzzyficados = new ArrayList<>();
 		
 		for(Stock stock : stocks) {
-			Optional<Supplier> supplier = suppliers.stream()
-					.filter(s -> s.getId().equals(stock.getSupplierId())).findFirst();
-			if(!supplier.isPresent()) {
-				new DefaultReturn<>("Erro: Supplier não cadastrado", null);
-			}
+			Supplier supplier = stock.getSupplier();
 			
 			CoeficienteDistancia cd = calcularDiferencaSupplierUser(
 					preferences.getLatitude(),
 					preferences.getLongitude(),
-					supplier.get()
+					supplier
 				);
 			
 			CoeficientePreco cp = CoeficientePreco.retornaCoeficientePreco(stock.getPrice());
