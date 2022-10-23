@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.event.ApplicationStartedEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entities.ShoppingItem;
 import com.example.demo.repository.ShoppingItemRepository;
-import com.example.demo.util.ShoppingItemsStarterData;
 
 import lombok.AllArgsConstructor;
 
@@ -32,11 +29,6 @@ public class ShoppingItemController {
 	
 	@Autowired
 	ShoppingItemRepository repository;
-	
-	@EventListener
-	public void eventListener(ApplicationStartedEvent event) {
-		saveShoppingItens(ShoppingItemsStarterData.getData());
-	}
 	
 	@GetMapping("/shoppingItem")
 	public List<ShoppingItem> getAllShoppingItens(){
@@ -110,7 +102,6 @@ public class ShoppingItemController {
 		shoppingItem.setName(newShoppingItem.getName());
 		shoppingItem.setBrand(newShoppingItem.getBrand());
 		shoppingItem.setType(newShoppingItem.getType());
-		shoppingItem.setPrice(newShoppingItem.getPrice());
 		shoppingItem.setImage(newShoppingItem.getImage());
 		return repository.save(shoppingItem);
 	}

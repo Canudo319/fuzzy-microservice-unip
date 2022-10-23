@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.event.ApplicationStartedEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entities.Supplier;
 import com.example.demo.repository.SupplierRepository;
-import com.example.demo.util.SuppliersStarterData;
 
 import lombok.AllArgsConstructor;
 
@@ -32,11 +29,6 @@ public class SupplierController {
 	
 	@Autowired
 	SupplierRepository repository;
-	
-	@EventListener
-	public void eventListener(ApplicationStartedEvent event) {
-		saveSuppliers(SuppliersStarterData.getData());
-	}
 	
 	@GetMapping("/supplier")
 	public List<Supplier> getAllSupliers(){

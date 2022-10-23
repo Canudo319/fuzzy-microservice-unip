@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,8 +14,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.bean.DefaultReturn;
+import com.example.demo.bean.StockAtratividade;
+import com.example.demo.bean.UserPreferences;
+import com.example.demo.entities.ShoppingItem;
 import com.example.demo.entities.Stock;
 import com.example.demo.repository.StockRepository;
+import com.example.demo.util.FuzzyLogicBestItems;
 
 import lombok.AllArgsConstructor;
 
@@ -49,13 +55,51 @@ public class StockController {
 		return new ResponseEntity<>(stock, HttpStatus.OK);
 	}
 	
+	@GetMapping("/stock/bestItens")
+	public DefaultReturn<List<StockAtratividade>> getBestItens(@RequestBody UserPreferences preferences){
+		return FuzzyLogicBestItems.fuzzyfy(
+				preferences,
+				getStockByItem(preferences.getPreferedItem()).getBody()
+			);
+	}
+	
+	@GetMapping("/stock/buy/{id}")
+	public ResponseEntity<DefaultReturn<ShoppingItem>> buyStock(@PathVariable Long id){
+		Optional<Stock> stock = repository.findById(id);
+		if(!stock.isPresent()) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+		if(stock.get().getStock() <= 0) {
+			return new ResponseEntity<>(
+					new DefaultReturn<>("Item não disponivel no estoque", null),
+					HttpStatus.METHOD_NOT_ALLOWED
+				);			
+		}
+		
+		ShoppingItem item = stock.get().getShoppingItem();
+		
+		stock.get().setStock(stock.get().getStock() - 1);
+		repository.save(stock.get());
+		return new ResponseEntity<>(
+				new DefaultReturn<>("Sucesso", item),
+				HttpStatus.OK
+			);
+	}
 	
 	@PostMapping("/stocks")
 	public List<Stock> saveStocks(@RequestBody List<Stock> suppliers) {
 		List<Stock> itensSalvos = new ArrayList<>();
 		
 		suppliers.forEach(supplier ->{
-			itensSalvos.add(repository.save(supplier));
+			Optional<Stock> optional = repository.findDuplicate(
+					supplier.getShoppingItem().getId(),
+					supplier.getSupplier().getId()
+				);
+			if(optional.isPresent()) {
+				optional.get().setStock(optional.get().getStock() + supplier.getStock());
+			}else {				
+				itensSalvos.add(repository.save(supplier));
+			}
 		});
 		
 		return itensSalvos;
