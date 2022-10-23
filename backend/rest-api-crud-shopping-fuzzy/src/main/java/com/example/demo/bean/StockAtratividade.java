@@ -13,4 +13,8 @@ public class StockAtratividade {
 	Stock stock;
 	Double atratividade;
 	String atrativadadeDescricao;
+	
+	public Double getPrice() {
+		return this.stock.getPrice();
+	}
 }

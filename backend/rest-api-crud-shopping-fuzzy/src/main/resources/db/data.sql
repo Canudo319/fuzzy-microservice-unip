@@ -16,8 +16,10 @@ INSERT INTO TBL_SUPPLIER(name,latitude,longitude) VALUES ('O Grande Mercado de C
 
 INSERT INTO TBL_STOCK(item_id,supplier_id,stock,price) VALUES (1,1,10,3.99);
 INSERT INTO TBL_STOCK(item_id,supplier_id,stock,price) VALUES (2,2,20,4.99);
-INSERT INTO TBL_STOCK(item_id,supplier_id,stock,price) VALUES (2,2,40,4.57);
+INSERT INTO TBL_STOCK(item_id,supplier_id,stock,price) VALUES (2,3,40,4.57);
 INSERT INTO TBL_STOCK(item_id,supplier_id,stock,price) VALUES (3,3,40,3.99);
 INSERT INTO TBL_STOCK(item_id,supplier_id,stock,price) VALUES (3,2,50,2.99);
+INSERT INTO TBL_STOCK(item_id,supplier_id,stock,price) VALUES (2,4,50,2.99);
+INSERT INTO TBL_STOCK(item_id,supplier_id,stock,price) VALUES (3,4,50,5.99);
 
 

@@ -1,6 +1,8 @@
 package com.example.demo.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.example.demo.bean.DefaultReturn;
@@ -37,6 +39,8 @@ public class FuzzyLogicBestItems {
 				));
 		}
 		
+		Collections.sort(stocksFuzzyficados, Comparator.comparing(StockAtratividade::getAtratividade).reversed()
+				.thenComparing(StockAtratividade::getPrice));
 		
 		return new DefaultReturn<>("Sucesso", stocksFuzzyficados);
 	}
