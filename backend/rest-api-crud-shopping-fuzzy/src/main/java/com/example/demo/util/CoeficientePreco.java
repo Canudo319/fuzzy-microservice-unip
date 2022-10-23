@@ -29,4 +29,15 @@ public enum CoeficientePreco{
 			return MUITO_CARO;
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return switch (this) {
+			case MUITO_BARATO -> "MUITO BARATO";
+			case BARATO -> "BARATO";
+			case RAZOAVEL -> "RAZOÁVEL";
+			case CARO -> "CARO";
+			case MUITO_CARO -> "MUITO CARO";
+		};
+	}
 }

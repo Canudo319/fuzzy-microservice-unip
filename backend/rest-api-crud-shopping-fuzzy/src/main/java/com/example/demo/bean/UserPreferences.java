@@ -11,5 +11,4 @@ public class UserPreferences {
 	Long preferedItem;
 	Double latitude;
 	Double longitude;
-	String preference;
 }
