@@ -21,6 +21,8 @@ import com.example.demo.entities.ShoppingItem;
 import com.example.demo.entities.Stock;
 import com.example.demo.repository.StockRepository;
 import com.example.demo.util.FuzzyLogicBestItems;
+import com.example.demo.util.FuzzyLogicCheppestItems;
+import com.example.demo.util.FuzzyLogicNearestSupplier;
 
 import lombok.AllArgsConstructor;
 
@@ -56,11 +58,39 @@ public class StockController {
 	}
 	
 	@GetMapping("/stock/bestItens")
-	public DefaultReturn<List<StockAtratividade>> getBestItens(@RequestBody UserPreferences preferences){
-		return FuzzyLogicBestItems.fuzzyfy(
-				preferences,
-				getStockByItem(preferences.getPreferedItem()).getBody()
-			);
+	public ResponseEntity<List<StockAtratividade>> getBestItens(@RequestBody UserPreferences preferences){
+		ResponseEntity<List<Stock>> stocks = getStockByItem(preferences.getPreferedItem());
+		
+		if(stocks.getStatusCode() != HttpStatus.OK) {
+			return new ResponseEntity<>(null, stocks.getStatusCode());
+		}
+		
+		List<StockAtratividade> stockAtratividade = FuzzyLogicBestItems.fuzzyfy(preferences, stocks.getBody());
+		return new ResponseEntity<>(stockAtratividade, HttpStatus.OK);
+	}
+	
+	@GetMapping("/stock/cheapestItems")
+	public ResponseEntity<List<StockAtratividade>> getCheapestItems(@RequestBody UserPreferences preferences){
+		ResponseEntity<List<Stock>> stocks = getStockByItem(preferences.getPreferedItem());
+		
+		if(stocks.getStatusCode() != HttpStatus.OK) {
+			return new ResponseEntity<>(null, stocks.getStatusCode());
+		}
+		
+		List<StockAtratividade> stockAtratividade = FuzzyLogicCheppestItems.fuzzyfy(preferences, stocks.getBody());
+		return new ResponseEntity<>(stockAtratividade, HttpStatus.OK);
+	}
+	
+	@GetMapping("/stock/nearestSupplier")
+	public ResponseEntity<List<StockAtratividade>> getNearestSupplier(@RequestBody UserPreferences preferences){
+		ResponseEntity<List<Stock>> stocks = getStockByItem(preferences.getPreferedItem());
+		
+		if(stocks.getStatusCode() != HttpStatus.OK) {
+			return new ResponseEntity<>(null, stocks.getStatusCode());
+		}
+		
+		List<StockAtratividade> stockAtratividade = FuzzyLogicNearestSupplier.fuzzyfy(preferences, stocks.getBody());
+		return new ResponseEntity<>(stockAtratividade, HttpStatus.OK);
 	}
 	
 	@GetMapping("/stock/buy/{id}")

@@ -11,7 +11,7 @@ import com.example.demo.entities.Stock;
 import com.example.demo.entities.Supplier;
 
 //Classe de logica fuzzy que busca os melhores itens de acordo com as especificações do usuario
-public class FuzzyLogicBestItems {
+public class FuzzyLogicNearestSupplier {
 	
 	public static List<StockAtratividade> fuzzyfy(UserPreferences preferences,
 			List<Stock> stocks){
@@ -27,14 +27,10 @@ public class FuzzyLogicBestItems {
 					supplier
 				);
 			
-			CoeficientePreco cp = CoeficientePreco.retornaCoeficientePreco(stock.getPrice());
-			
-			CoeficienteAtratividade ca = CoeficienteAtratividade.retornaCoeficienteAtratividade(cd, cp);
-			
 			stocksFuzzyficados.add(new StockAtratividade(
 					stock,
-					ca.getWeight(),
-					ca.toString()
+					cd.getWeight(),
+					cd.toString()
 				));
 		}
 		
@@ -43,4 +39,5 @@ public class FuzzyLogicBestItems {
 		
 		return stocksFuzzyficados;
 	}
+	
 }

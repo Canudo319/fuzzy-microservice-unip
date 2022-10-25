@@ -22,10 +22,18 @@ public enum CoeficienteDistancia{
 			return MEDIANA;
 		}else if(distancia > MEDIANA.getDistance() && distancia <= LONGE.getDistance()) {
 			return LONGE;
-		}else if(distancia > LONGE.getDistance() && distancia <= MUITO_LONGE.getDistance()) {
-			return LONGE;
 		}else {
 			return MUITO_LONGE;
 		}
+	}
+	
+	@Override
+	public String toString() {
+		return switch (this) {
+		case PERTO -> "PERTO";
+		case MEDIANA -> "MEDIANA";
+		case LONGE -> "LONGE";
+		case MUITO_LONGE -> "MUITO LONGE";
+		};
 	}
 }
