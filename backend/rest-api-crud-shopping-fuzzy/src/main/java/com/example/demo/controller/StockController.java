@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.bean.DefaultReturn;
@@ -58,7 +59,13 @@ public class StockController {
 	}
 	
 	@GetMapping("/stock/bestItens")
-	public ResponseEntity<List<StockAtratividade>> getBestItens(@RequestBody UserPreferences preferences){
+	public ResponseEntity<List<StockAtratividade>> getBestItens(
+				@RequestParam(value = "item") Long item,
+				@RequestParam(value = "latitude", defaultValue = "0.0") Double latitude,
+				@RequestParam(value = "longitude", defaultValue = "0.0") Double longitude
+			){
+		UserPreferences preferences = new UserPreferences(item, latitude, longitude);
+		
 		ResponseEntity<List<Stock>> stocks = getStockByItem(preferences.getPreferedItem());
 		
 		if(stocks.getStatusCode() != HttpStatus.OK) {
@@ -70,7 +77,11 @@ public class StockController {
 	}
 	
 	@GetMapping("/stock/cheapestItems")
-	public ResponseEntity<List<StockAtratividade>> getCheapestItems(@RequestBody UserPreferences preferences){
+	public ResponseEntity<List<StockAtratividade>> getCheapestItems(
+			@RequestParam(value = "item") Long item
+		){
+		UserPreferences preferences = new UserPreferences(item, 0.0, 0.0);
+		
 		ResponseEntity<List<Stock>> stocks = getStockByItem(preferences.getPreferedItem());
 		
 		if(stocks.getStatusCode() != HttpStatus.OK) {
@@ -82,7 +93,13 @@ public class StockController {
 	}
 	
 	@GetMapping("/stock/nearestSupplier")
-	public ResponseEntity<List<StockAtratividade>> getNearestSupplier(@RequestBody UserPreferences preferences){
+	public ResponseEntity<List<StockAtratividade>> getNearestSupplier(
+			@RequestParam(value = "item") Long item,
+			@RequestParam(value = "latitude", defaultValue = "0.0") Double latitude,
+			@RequestParam(value = "longitude", defaultValue = "0.0") Double longitude
+		){
+		UserPreferences preferences = new UserPreferences(item, latitude, longitude);
+		
 		ResponseEntity<List<Stock>> stocks = getStockByItem(preferences.getPreferedItem());
 		
 		if(stocks.getStatusCode() != HttpStatus.OK) {
