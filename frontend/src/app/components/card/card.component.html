@@ -1,0 +1,19 @@
+<div class="po-row" style="display: flex; justify-content: center;">
+    <div class="po-row flex-end">
+        <span class="po-icon po-icon-cart cart">
+            <span class="cart-count">0</span>
+        </span>
+    </div>
+    <div *ngFor="let product of products">
+        <po-widget class="po-lg-12 custom_card" [p-height]="400" p-primary-label="Adicionar ao Carrinho"
+            p-secondary-label="Ver mais..." p-title="{{product.name}} - {{product.brand}}" [p-help]="help"
+            (p-primary-action)="addCart(product.id, product.name, product.image, product.brand)"
+            (p-secondary-action)="modalDesc.open()">
+            <po-info [p-label]="label" [p-value]="value"> </po-info>
+            <div class="div_product_image">
+                <img src="{{product.image}}" class="product_image">
+            </div>
+        </po-widget>
+        <po-modal #modalDesc p-title="Descrição do Produto"> {{product.type}} - R$ {{product.price}}</po-modal>
+    </div>
+</div>

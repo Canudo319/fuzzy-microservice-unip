@@ -1,0 +1,29 @@
+<po-page-default p-title="Carrinho">
+    <po-container>
+        <div class="po-row" style="display: grid;">
+
+            <div *ngFor="let cartProduct of cartItems">
+                <div class="product">
+                    <img src="{{cartProduct.image}}" class="product_image">
+                    <div class="col-md-3">
+                        <div class="form-group">
+
+                            <label for="numEstagio">Quantidade</label>
+                            <div class="input-counter">
+                                <span class="minus-btn"><i class="po-icon po-icon-arrow-down"></i></span>
+                                <input type="text" value="1" name="quantidadeCart_{{cartProduct.id}}"
+                                    id="quantidadeCart_{{cartProduct.id}}">
+                                <span class="plus-btn"><i class="po-icon po-icon-arrow-up"
+                                        (click)="addQuantity('quantidadeCart_{{cartProduct.id}}')"></i></span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <p>{{cartProduct.productName}}</p>
+
+                </div>
+            </div>
+
+        </div>
+    </po-container>
+</po-page-default>

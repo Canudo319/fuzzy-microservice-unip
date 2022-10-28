@@ -1,0 +1,37 @@
+<po-page-dynamic-search p-title="Home" (p-quick-search)="onQuickSearch($event)" [p-literals]="literals">
+    <po-container>
+        <div class="po-row">
+            <div class="po-row" style="display: flex; justify-content: center;">
+                <div class="po-row flex-end">
+                    <!-- <span class="po-icon po-icon-eye cart">
+                        <small class="">Legenda</small>
+                    </span> -->
+                    <span class="po-icon po-icon-cart cart">
+                        <span class="cart-count">0</span>
+                    </span>
+                </div>
+                <div *ngFor="let product of products">
+                    <po-widget class="po-lg-12 custom_card " [p-height]="400" p-primary-label="Adicionar ao Carrinho"
+                        p-secondary-label="Ver mais..." p-title="{{product.name}} - {{product.brand}}" [p-help]="help"
+                        (p-primary-action)="addCart(product.id, product.name, product.image, product.brand)"
+                        (p-secondary-action)="modalDesc.open()">
+                        <po-info [p-label]="label" [p-value]="value"> </po-info>
+                        <div class="div_product_image">
+                            <img src="{{product.image}}" class="product_image" id="product_{{product.id}}">
+                        </div>
+                    </po-widget>
+                    <po-modal #modalDesc p-title="Descrição do Produto">
+                        <div *ngFor="let fuzzy of fuzzies; index as indexOfelement;">
+                            <div *ngIf="fuzzy[indexOfelement].stock.shoppingItem.id == product.id">
+                                <div *ngFor="let obj of fuzzy; index as pos;">
+                                    <p>Fornecedor: {{obj.stock.supplier.name}} - R$ {{obj.stock.price}} - Atratividade:
+                                        {{obj.atratividade}} - {{obj.atrativadadeDescricao}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </po-modal>
+                </div>
+            </div>
+        </div>
+    </po-container>
+</po-page-dynamic-search>

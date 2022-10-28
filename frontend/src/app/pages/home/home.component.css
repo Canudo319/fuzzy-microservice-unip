@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+.custom_card {
+    margin-top: 2rem;
+    min-width: 350px;
+    max-width: 350px;
+}
+
+.cart {
+    font-size: 48px;
+    cursor: pointer;
+    color: #6DB33F;
+    margin-right: 2%;
+}
+
+.cart-count {
+    color: #C93583;
+    font-size: 18px;
+    position: absolute;
+    font-family: 'Roboto', sans-serif;
+}
+
+.flex-end {
+    justify-content: flex-end;
+}
+
+.product_image {
+    height: 180px;
+    width: 180px;
+}
+
+.div_product_image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
