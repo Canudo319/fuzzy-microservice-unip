@@ -23,7 +23,8 @@ public class FuzzyLogicCheppestItems {
 			stocksFuzzyficados.add(new StockAtratividade(
 					stock,
 					cp.getWeight(),
-					cp.toString()
+					cp.toString(),
+					cp.getColor()
 				));
 		}
 		

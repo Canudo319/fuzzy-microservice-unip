@@ -5,14 +5,16 @@ import lombok.Getter;
 
 @AllArgsConstructor
 public enum CoeficienteAtratividade{
-	MUITO_ATRATIVO(0.9),
-	ATRATIVO(0.7),
-	MEDIANO(0.5),
-	NAO_ATRATIVO(0.3),
-	NADA_ATRATIVO(0.1);
+	MUITO_ATRATIVO(0.9, "DARK_GREEN"),
+	ATRATIVO(0.7, "GREEN"),
+	MEDIANO(0.5, "YELLOW"),
+	NAO_ATRATIVO(0.3, "ORANGE"),
+	NADA_ATRATIVO(0.1, "RED");
 	
 	@Getter
 	private final Double weight;
+	@Getter
+	private final String color;
 	
 	public static CoeficienteAtratividade retornaCoeficienteAtratividade(CoeficienteDistancia cd, CoeficientePreco cp) {
 		Double cdWeight = cd.getWeight();

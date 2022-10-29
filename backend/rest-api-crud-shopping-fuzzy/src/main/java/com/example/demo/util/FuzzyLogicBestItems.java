@@ -34,7 +34,8 @@ public class FuzzyLogicBestItems {
 			stocksFuzzyficados.add(new StockAtratividade(
 					stock,
 					ca.getWeight(),
-					ca.toString()
+					ca.toString(),
+					ca.getColor()
 				));
 		}
 		

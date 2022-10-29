@@ -5,16 +5,18 @@ import lombok.Getter;
 
 @AllArgsConstructor
 public enum CoeficientePreco{
-	MUITO_BARATO(2.99, 1.0),
-	BARATO(5.99, 0.7),
-	RAZOAVEL(10.99, 0.5),
-	CARO(15.99, 0.3),
-	MUITO_CARO(25.99, 0.1);
+	MUITO_BARATO(2.99, 1.0, "DARK_GREEN"),
+	BARATO(5.99, 0.7, "GREEN"),
+	RAZOAVEL(10.99, 0.5, "YELLOW"),
+	CARO(15.99, 0.3, "ORANGE"),
+	MUITO_CARO(25.99, 0.1, "RED");
 	
 	@Getter
 	private final Double preco;
 	@Getter
 	private final Double weight;
+	@Getter
+	private final String color;
 	
 	public static CoeficientePreco retornaCoeficientePreco(Double preco) {
 		if(preco <= MUITO_BARATO.preco) {

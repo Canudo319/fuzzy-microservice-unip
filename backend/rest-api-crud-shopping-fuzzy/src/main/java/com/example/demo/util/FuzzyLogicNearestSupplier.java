@@ -30,7 +30,8 @@ public class FuzzyLogicNearestSupplier {
 			stocksFuzzyficados.add(new StockAtratividade(
 					stock,
 					cd.getWeight(),
-					cd.toString()
+					cd.toString(),
+					cd.getColor()
 				));
 		}
 		
