@@ -17,8 +17,12 @@ public class FuzzyLogicCheppestItems {
 		
 		ArrayList<StockAtratividade> stocksFuzzyficados = new ArrayList<>();
 		
+		Double precoMedio = stocks.stream()
+				.map(Stock::getPrice)
+				.reduce(0.0, Double::sum) / stocks.size();
+		
 		for(Stock stock : stocks) {
-			CoeficientePreco cp = CoeficientePreco.retornaCoeficientePreco(stock.getPrice());
+			CoeficientePreco cp = CoeficientePreco.retornaCoeficientePreco(stock.getPrice(), precoMedio);
 			
 			stocksFuzzyficados.add(new StockAtratividade(
 					stock,

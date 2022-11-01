@@ -18,6 +18,10 @@ public class FuzzyLogicBestItems {
 		
 		ArrayList<StockAtratividade> stocksFuzzyficados = new ArrayList<>();
 		
+		Double precoMedio = stocks.stream()
+				.map(Stock::getPrice)
+				.reduce(0.0, Double::sum) / stocks.size();
+		
 		for(Stock stock : stocks) {
 			Supplier supplier = stock.getSupplier();
 			
@@ -27,7 +31,7 @@ public class FuzzyLogicBestItems {
 					supplier
 				);
 			
-			CoeficientePreco cp = CoeficientePreco.retornaCoeficientePreco(stock.getPrice());
+			CoeficientePreco cp = CoeficientePreco.retornaCoeficientePreco(stock.getPrice(), precoMedio);
 			
 			CoeficienteAtratividade ca = CoeficienteAtratividade.retornaCoeficienteAtratividade(cd, cp);
 			
