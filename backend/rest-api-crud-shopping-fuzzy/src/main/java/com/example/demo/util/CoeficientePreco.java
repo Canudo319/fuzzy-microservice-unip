@@ -5,11 +5,11 @@ import lombok.Getter;
 
 @AllArgsConstructor
 public enum CoeficientePreco{
-	MUITO_BARATO(10.0, 1.0, "DARK_GREEN"),
-	BARATO(5.0, 0.7, "GREEN"),
+	MUITO_BARATO(20.0, 1.0, "DARK_GREEN"),
+	BARATO(7.5, 0.7, "GREEN"),
 	NA_MEDIA(0.0, 0.5, "YELLOW"),
 	CARO(-5.0, 0.3, "ORANGE"),
-	MUITO_CARO(-10.0, 0.1, "RED");
+	MUITO_CARO(-15.0, 0.1, "RED");
 	
 	@Getter
 	private final Double porcent;
