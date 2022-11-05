@@ -29,12 +29,12 @@ export class AppComponent {
       shortLabel: 'Carrinho'
     },
     {
-      label: 'Pagamento',
+      label: 'Perfil',
       action: () => {
-        this.router.navigate(['payment']);
+        this.router.navigate(['user-settings']);
       },
-      icon: 'po-icon po-icon-money',
-      shortLabel: 'Pagamento'
+      icon: 'po-icon po-icon-user',
+      shortLabel: 'Perfil'
     },
   ];
 }

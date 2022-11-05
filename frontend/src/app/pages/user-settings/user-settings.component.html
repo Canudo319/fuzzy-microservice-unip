@@ -1,0 +1,24 @@
+<po-page-default p-title="Editar perfil">
+    <po-container>
+        <form #f="ngForm">
+            <div class="po-row">
+                <po-input class="po-md-4" formControlName="name" p-clean p-icon="po-icon-user" name="name"
+                    [(ngModel)]="name" p-label="Nome"> </po-input>
+                <po-input class="po-md-4" formControlName="surname" p-clean p-icon="po-icon-user" [(ngModel)]="surname"
+                    p-label="Sobrenome">
+                </po-input>
+            </div>
+            <div class="po-row">
+                <po-number class="po-md-2" name="lat" [(ngModel)]="lat" p-label="Latitude" p-icon="po-icon-world"
+                    p-required> </po-number>
+                <po-number class="po-md-2" name="long" [(ngModel)]="long" p-label="Longitude" p-icon="po-icon-world"
+                    p-required>
+                </po-number>
+            </div>
+            <br>
+            <div class="po-row">
+                <po-button p-label="Salvar preferências" (p-click)="savePref()"> </po-button>
+            </div>
+        </form>
+    </po-container>
+</po-page-default>

@@ -123,12 +123,29 @@ export class HomeComponent implements OnInit {
   ];
 
   showUserInfoSwal() {
+    if (localStorage.getItem("lat") != null && localStorage.getItem("long") != null) {
+      Swal.fire({
+        icon: 'info',
+        html:
+          '<b>Seja bem-vindo!</b> GUILHERME ROCHA' +
+          '<p>Abaixo estão suas informações cadastrais do endereço: </p> ' +
+          '<p>R. Catatau e Zé Colmeia, Nº 12</p>',
+      })
+    } else {
+      Swal.fire({
+        icon: 'warning',
+        html:
+          '<b>Atenção!</b> ' +
+          '<p>Edite o seu perfil para realizar a filtragem dos produtos de maneira correta!</p> '
+      })
+    }
+  }
+
+  showAlert(title: any, text: any, icon: any) {
     Swal.fire({
-      icon: 'info',
-      html:
-        '<b>Seja bem-vindo!</b>, GUILHERME ROCHA' +
-        '<p>Abaixo estão suas informações cadastrais do endereço: </p> ' +
-        '<p>R. Catatau e Zé Colmeia, Nº 12</p>',
+      icon: icon,
+      title: title,
+      text: text
     })
   }
 
@@ -139,6 +156,7 @@ export class HomeComponent implements OnInit {
       this.productsService.readBestItens(obj.id, 0, 0).subscribe(res => {
         if (obj.id == res[0].stock.shoppingItem.id && res[0].stock.shoppingItem.name) {
           this.fuzzies.push(res);
+          this.showAlert("Sucesso!", "Filtro aplicado com sucesso.", "success");
         }
       })
     });
@@ -151,6 +169,7 @@ export class HomeComponent implements OnInit {
       this.productsService.readCheapestItems(obj.id).subscribe(res => {
         if (obj.id == res[0].stock.shoppingItem.id && res[0].stock.shoppingItem.name) {
           this.fuzzies.push(res);
+          this.showAlert("Sucesso!", "Filtro aplicado com sucesso.", "success");
         }
       })
     });
@@ -163,6 +182,7 @@ export class HomeComponent implements OnInit {
       this.productsService.readNearestSupplier(obj.id, 0, 0).subscribe(res => {
         if (obj.id == res[0].stock.shoppingItem.id && res[0].stock.shoppingItem.name) {
           this.fuzzies.push(res);
+          this.showAlert("Sucesso!", "Filtro aplicado com sucesso.", "success");
         }
       })
     });

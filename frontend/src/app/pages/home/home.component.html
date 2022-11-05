@@ -25,7 +25,7 @@
                         <div *ngFor="let fuzzy of fuzzies; index as indexOfelement;">
                             <div *ngIf="fuzzy[indexOfelement].stock.shoppingItem.id == product.id">
                                 <div *ngFor="let obj of fuzzy; index as pos;">
-                                    <p [ngStyle]="{'color': obj.color != undefined ? obj.color : obj.stock.color }">
+                                    <p [ngStyle]="{'color': obj.color ? obj.color : obj.stock.color }">
                                         Fornecedor:
                                         {{obj.stock.supplier.name}} - R$ {{obj.stock.price}} - Atratividade:
                                         {{obj.atratividade}} - {{obj.atrativadadeDescricao}}</p>
