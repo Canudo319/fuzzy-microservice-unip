@@ -5,10 +5,10 @@ import lombok.Getter;
 
 @AllArgsConstructor
 public enum CoeficienteDistancia{
-	PERTO(30, 1.0, "DARK_GREEN"),
-	MEDIANA(100, 0.7, "GREEN"),
-	LONGE(250, 0.4, "YELLOW"),
-	MUITO_LONGE(500, 0.1, "RED");
+	PERTO(30, 1.0, "#00630c"),
+	MEDIANA(100, 0.7, "#26c739"),
+	LONGE(250, 0.4, "#c1c92a"),
+	MUITO_LONGE(500, 0.1, "#bf0000");
 	
 	@Getter
 	private final Integer distance;

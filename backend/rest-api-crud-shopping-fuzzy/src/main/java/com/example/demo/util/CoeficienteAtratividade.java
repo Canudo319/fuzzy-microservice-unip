@@ -5,11 +5,11 @@ import lombok.Getter;
 
 @AllArgsConstructor
 public enum CoeficienteAtratividade{
-	MUITO_ATRATIVO(0.9, "DARK_GREEN"),
-	ATRATIVO(0.7, "GREEN"),
-	MEDIANO(0.5, "YELLOW"),
-	NAO_ATRATIVO(0.3, "ORANGE"),
-	NADA_ATRATIVO(0.1, "RED");
+	MUITO_ATRATIVO(0.9, "#00630c"),
+	ATRATIVO(0.7, "#26c739"),
+	MEDIANO(0.5, "#c1c92a"),
+	NAO_ATRATIVO(0.3, "#bd5f1c"),
+	NADA_ATRATIVO(0.1, "#bf0000");
 	
 	@Getter
 	private final Double weight;
