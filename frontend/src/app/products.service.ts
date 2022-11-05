@@ -47,6 +47,32 @@ export class ProductsService {
       }));
   }
 
+  readCheapestItems(preferedItem: number): Observable<Products[]> {
+    let params = new HttpParams();
+    let reqRet: any = "";
+    params = params.append("item", preferedItem);
+
+    return this.http.get<Products[]>(`${this.url}/stock/cheapestItems`, { observe: "response", params }).pipe(
+      map(response => {
+        reqRet = response.body;
+        return reqRet;
+      }));
+  }
+
+  readNearestSupplier(preferedItem: number, lat: number, long: number): Observable<Products[]> {
+    let params = new HttpParams();
+    let reqRet: any = "";
+    params = params.append("item", preferedItem);
+    params = params.append("latitude", lat);
+    params = params.append("longitude", long);
+
+    return this.http.get<Products[]>(`${this.url}/stock/nearestSupplier`, { observe: "response", params }).pipe(
+      map(response => {
+        reqRet = response.body;
+        return reqRet;
+      }));
+  }
+
   update(id: any, object: any): Observable<Products> {
     return this.http.put<Products>(this.url + "/" + id, object).pipe(map(obj => obj),
       catchError(e => this.handleWithError(e)));

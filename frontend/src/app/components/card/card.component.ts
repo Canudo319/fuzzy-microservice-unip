@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ProductsService } from './../../products.service';
-import Swal from 'sweetalert2';
 
 
 @Component({
