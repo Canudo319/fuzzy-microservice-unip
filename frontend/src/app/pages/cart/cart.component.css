@@ -3,11 +3,19 @@
     width: 180px;
 }
 
+.delete {
+    cursor: pointer;
+    font-size: 36px;
+    color: red;
+}
+
 .product {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
 }
+
+
 
 .input-counter {
     max-width: 150px;

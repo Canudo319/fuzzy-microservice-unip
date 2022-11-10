@@ -6,24 +6,34 @@
                 <div class="product">
                     <img src="{{cartProduct.image}}" class="product_image">
                     <div class="col-md-3">
+                        <po-select name="select" p-label="Fornecedores" [p-options]="suppliers"></po-select>
+                    </div>
+                    <div class="col-md-3">
                         <div class="form-group">
-
                             <label for="numEstagio">Quantidade</label>
                             <div class="input-counter">
-                                <span class="minus-btn"><i class="po-icon po-icon-arrow-down"></i></span>
-                                <input type="text" value="1" name="quantidadeCart_{{cartProduct.id}}"
+                                <span class="minus-btn" (click)="decQuantity(cartProduct.id)"><i
+                                        class="po-icon po-icon-arrow-down"></i></span>
+                                <input type="text" value="1" readonly name="quantidadeCart_{{cartProduct.id}}"
                                     id="quantidadeCart_{{cartProduct.id}}">
-                                <span class="plus-btn"><i class="po-icon po-icon-arrow-up"
-                                        (click)="addQuantity('quantidadeCart_{{cartProduct.id}}')"></i></span>
+                                <span class="plus-btn" (click)="addQuantity(cartProduct.id)"><i
+                                        class="po-icon po-icon-arrow-up"></i></span>
                             </div>
 
                         </div>
                     </div>
                     <p>{{cartProduct.productName}}</p>
+                    <i class="po-icon po-icon-delete delete" id="delete_{{cartProduct.id}}"
+                        (click)="delItem(cartProduct.id)"></i>
 
                 </div>
             </div>
 
         </div>
     </po-container>
+    <br>
+    <br>
+    <div class="po-row">
+        <po-button p-label="Finalizar pedido" (p-click)="saveOrder()"> </po-button>
+    </div>
 </po-page-default>

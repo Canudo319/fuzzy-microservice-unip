@@ -33,6 +33,16 @@ export class ProductsService {
     return this.http.get<Products[]>(`${this.url}/shoppingItem/${id}`);
   }
 
+  readStockById(id: number): Observable<Products[]> {
+    let params = new HttpParams();
+    let reqRet: any = "";
+    return this.http.get<Products[]>(`${this.url}/stock/item/${id}`, { observe: "response", params }).pipe(
+      map(response => {
+        reqRet = response.body;
+        return reqRet;
+      }));
+  }
+
   readBestItens(preferedItem: number, lat: number, long: number): Observable<Products[]> {
     let params = new HttpParams();
     let reqRet: any = "";

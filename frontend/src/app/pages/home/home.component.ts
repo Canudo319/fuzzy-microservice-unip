@@ -25,11 +25,13 @@ export class HomeComponent implements OnInit {
   cart: any[] = [];
 
   ngOnInit(): void {
+    var latitude = localStorage.getItem("lat");
+    var longitude = localStorage.getItem("long");
     this.productsService.read().subscribe(res => {
       this.allItems = res;
       this.allItems.forEach((obj) => {
 
-        this.productsService.readBestItens(obj.id, 0, 0).subscribe(res => {
+        this.productsService.readBestItens(obj.id, latitude != null ? Number(latitude) : 0, longitude != null ? Number(longitude) : 0).subscribe(res => {
           document.querySelector(".po-row")?.querySelectorAll('[id^=product]').forEach((obj) => {
             let id = obj.id.split("_")[1].trim();
             if (id == res[0].stock.shoppingItem.id && res[0].stock.shoppingItem.name) {
@@ -50,38 +52,49 @@ export class HomeComponent implements OnInit {
   addCart(id: any, productName: string, img: any, brand: any) {
     var cartCounter = document.querySelector('.cart-count') as any;
     cartCounter.innerText = Number(cartCounter.innerText) + 1;
-    if (this.cart.length != 0) {
 
-      this.cart.push(
-        {
-          "id": id,
-          "productName": productName,
-          "brand": brand,
-          "image": img
-        }
-      );
+    var supplier: any[] = [];
+    var supplierFinal: any[] = [];
+    this.productsService.readStockById(id).subscribe(res => {
+      for (var i = 0; i < res.length; i++) {
+        supplierFinal.push({ name: res[i].supplier.name, shoppingItemId: res[i].shoppingItem.id, supplierId: res[i].id })
+      }
 
-      this.cart = this.cart.filter((value, index, self) =>
-        index === self.findIndex((t) => (
-          t.id === value.id && t.img === value.img
-        ))
-      )
+      if (this.cart.length != 0) {
 
-    } else {
-      this.cart.push(
-        {
-          "id": id,
-          "productName": productName,
-          "brand": brand,
-          "image": img
-        }
-      );
-    }
+        this.cart.push(
+          {
+            "id": id,
+            "productName": productName,
+            "brand": brand,
+            "image": img,
+            "supplier": supplierFinal
+          }
+        );
 
-    let strObj = JSON.stringify(this.cart);
-    this.cart.forEach((obj) => {
-      localStorage.setItem('cartObj', strObj);
-    });
+        this.cart = this.cart.filter((value, index, self) =>
+          index === self.findIndex((t) => (
+            t.id === value.id && t.img === value.img
+          ))
+        )
+
+      } else {
+        this.cart.push(
+          {
+            "id": id,
+            "productName": productName,
+            "brand": brand,
+            "image": img,
+            "supplier": supplierFinal
+          }
+        );
+      }
+
+      let strObj = JSON.stringify(this.cart);
+      this.cart.forEach((obj) => {
+        localStorage.setItem('cartObj', strObj);
+      });
+    })
   }
 
   readonly literals: PoPageDynamicSearchLiterals = {
@@ -127,9 +140,10 @@ export class HomeComponent implements OnInit {
       Swal.fire({
         icon: 'info',
         html:
-          '<b>Seja bem-vindo!</b> GUILHERME ROCHA' +
+          '<b>Seja bem-vindo! </b>' + localStorage.getItem("username") + " " + localStorage.getItem("userSurname") +
           '<p>Abaixo estão suas informações cadastrais do endereço: </p> ' +
-          '<p>R. Catatau e Zé Colmeia, Nº 12</p>',
+          '<p>Latitude: ' + localStorage.getItem("lat") + '</p>' +
+          '<p>Longitude: ' + localStorage.getItem("long") + '</p>',
       })
     } else {
       Swal.fire({
@@ -141,6 +155,32 @@ export class HomeComponent implements OnInit {
     }
   }
 
+
+  showSubtitleInfoSwal() {
+    Swal.fire({
+      icon: 'info',
+      html:
+        '<b>Legenda: </b><br><br>' +
+        '<div style="display: inline-block;">' +
+        '<div style="display: flex; margin-top: 10%; align-items: center;">' +
+        '<span class="dot" style="height: 25px; width: 25px; background-color:#00630c; border-radius: 50%; display: inline-block; margin-right: 2%; "></span><small> Melhor opção</small><br>' +
+        '</div>' +
+        '<div style="display: flex; margin-top: 10%; align-items: center;">' +
+        '<span class="dot" style="height: 25px; width: 25px; background-color:#26c739; border-radius: 50%; display: inline-block; margin-right: 2%; "></span><small> Boa opção</small><br>' +
+        '</div>' +
+        '<div style="display: flex; margin-top: 10%; align-items: center;">' +
+        '<span class="dot" style="height: 25px; width: 25px; background-color:#c1c92a; border-radius: 50%; display: inline-block; margin-right: 2%; "></span><small> Opção mediana</small><br>' +
+        '</div>' +
+        '<div style="display: flex; margin-top: 10%; align-items: center;">' +
+        '<span class="dot" style="height: 25px; width: 25px; background-color:#bd5f1c; border-radius: 50%; display: inline-block; margin-right: 2%; "></span><small> Opção ruim</small><br>' +
+        '</div>' +
+        '<div style="display: flex; margin-top: 10%; align-items: center;">' +
+        '<span class="dot" style="height: 25px; width: 25px; background-color:#bf0000; border-radius: 50%; display: inline-block; margin-right: 2%; "></span><small> Não recomendada</small><br>' +
+        '</div>' +
+        '</div>'
+    })
+  }
+
   showAlert(title: any, text: any, icon: any) {
     Swal.fire({
       icon: icon,
@@ -150,10 +190,12 @@ export class HomeComponent implements OnInit {
   }
 
   readBestItems() {
+    var latitude = localStorage.getItem("lat");
+    var longitude = localStorage.getItem("long");
     this.fuzzies = [];
     this.allItems.forEach((obj) => {
 
-      this.productsService.readBestItens(obj.id, 0, 0).subscribe(res => {
+      this.productsService.readBestItens(obj.id, latitude != null ? Number(latitude) : 0, longitude != null ? Number(longitude) : 0).subscribe(res => {
         if (obj.id == res[0].stock.shoppingItem.id && res[0].stock.shoppingItem.name) {
           this.fuzzies.push(res);
           this.showAlert("Sucesso!", "Filtro aplicado com sucesso.", "success");
@@ -176,10 +218,12 @@ export class HomeComponent implements OnInit {
   }
 
   readNearestSupplier() {
+    var latitude = localStorage.getItem("lat");
+    var longitude = localStorage.getItem("long");
     this.fuzzies = [];
     this.allItems.forEach((obj) => {
 
-      this.productsService.readNearestSupplier(obj.id, 0, 0).subscribe(res => {
+      this.productsService.readNearestSupplier(obj.id, latitude != null ? Number(latitude) : 0, longitude != null ? Number(longitude) : 0).subscribe(res => {
         if (obj.id == res[0].stock.shoppingItem.id && res[0].stock.shoppingItem.name) {
           this.fuzzies.push(res);
           this.showAlert("Sucesso!", "Filtro aplicado com sucesso.", "success");
