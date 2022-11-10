@@ -111,7 +111,9 @@ public class StockController {
 	}
 	
 	@GetMapping("/stock/buy/{id}")
-	public ResponseEntity<DefaultReturn<ShoppingItem>> buyStock(@PathVariable Long id){
+	public ResponseEntity<DefaultReturn<Stock>> buyStock(
+			@PathVariable Long id,
+			@RequestParam(value = "quantity", defaultValue = "1") Integer quantity){
 		Optional<Stock> stock = repository.findById(id);
 		if(!stock.isPresent()) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -122,13 +124,23 @@ public class StockController {
 					HttpStatus.METHOD_NOT_ALLOWED
 				);			
 		}
+		if(stock.get().getStock() < quantity) {
+			return new ResponseEntity<>(
+					new DefaultReturn<>("Item não disponivel na quantidade desejada", null),
+					HttpStatus.METHOD_NOT_ALLOWED
+				);	
+		}
+		if(quantity <= 0) {
+			return new ResponseEntity<>(
+					new DefaultReturn<>("Quantidade não pode ser negativa", null),
+					HttpStatus.METHOD_NOT_ALLOWED
+				);	
+		}
 		
-		ShoppingItem item = stock.get().getShoppingItem();
-		
-		stock.get().setStock(stock.get().getStock() - 1);
+		stock.get().setStock(stock.get().getStock() - quantity);
 		repository.save(stock.get());
 		return new ResponseEntity<>(
-				new DefaultReturn<>("Sucesso", item),
+				new DefaultReturn<>("Sucesso", stock.get()),
 				HttpStatus.OK
 			);
 	}
