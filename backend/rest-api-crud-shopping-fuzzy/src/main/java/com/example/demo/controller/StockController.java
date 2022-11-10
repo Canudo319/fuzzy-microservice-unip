@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.bean.DefaultReturn;
 import com.example.demo.bean.StockAtratividade;
 import com.example.demo.bean.UserPreferences;
-import com.example.demo.entities.ShoppingItem;
 import com.example.demo.entities.Stock;
 import com.example.demo.repository.StockRepository;
 import com.example.demo.util.FuzzyLogicBestItems;
