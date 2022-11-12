@@ -27,7 +27,9 @@ export class CartComponent implements OnInit {
       objLs.forEach((element: any, index: any) => {
         this.cartItems.push(element);
         this.cartItems[index].supplier.forEach((obj: any, indexObj: any) => {
-          this.suppliers.push({ label: `${element.supplier[indexObj].name}`, value: `${element.supplier[indexObj].name}` });
+          console.log("this.suppliers");
+          console.log(this.suppliers);
+          this.suppliers.push({ label: `${element.supplier[indexObj].supplierId} - ${element.supplier[indexObj].name}`, value: `${element.supplier[indexObj].name}` });
         });
       });
       console.log("Tetse ")

@@ -23,7 +23,7 @@
                     <po-modal #modalDesc p-title="Descrição do Produto">
                         <div *ngFor="let fuzzy of fuzzies; index as indexOfelement;">
                             <div
-                                *ngIf="fuzzy[indexOfelement].stock ? fuzzy[indexOfelement].stock.shoppingItem.id == product.id : fuzzy[indexOfelement].shoppingItem.id == product.id ">
+                                *ngIf="fuzzy[indexOfelement].atratividade != ''? fuzzy[indexOfelement].stock.shoppingItem.id == product.id : fuzzy[indexOfelement].shoppingItem.id == product.id ">
                                 <div *ngFor="let obj of fuzzy; index as pos;">
                                     <p [ngStyle]="{'color': obj.color != '' ? obj.color : obj.stock.color }">
                                         Fornecedor:

@@ -2,11 +2,16 @@
     <po-container>
         <div class="po-row" style="display: grid;">
 
-            <div *ngFor="let cartProduct of cartItems">
+            <div *ngFor="let cartProduct of cartItems; index as indexOfelement;">
                 <div class="product">
                     <img src="{{cartProduct.image}}" class="product_image">
                     <div class="col-md-3">
-                        <po-select name="select" p-label="Fornecedores" [p-options]="suppliers"></po-select>
+                        <!-- <input type="radio" value="teste" name="teste"
+                            *ngFor="let suppliers of cartProduct.supplier; index as id;"> -->
+                        <po-radio name="select" p-label="{{cartProduct.id}} - {{cartProduct.supplier[id].name}}"
+                            *ngFor="let suppliers of cartProduct.supplier; index as id;"
+                            [p-options]="[{label: cartProduct.supplier[id].name , value: cartProduct.supplier[id].name}]">
+                        </po-radio>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">

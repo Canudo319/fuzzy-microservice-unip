@@ -193,11 +193,13 @@ export class HomeComponent implements OnInit {
     var latitude = localStorage.getItem("lat");
     var longitude = localStorage.getItem("long");
     this.fuzzies = [];
-    this.allItems.forEach((obj) => {
+    this.allItems.forEach((obj, index) => {
 
       this.productsService.readBestItens(obj.id, latitude != null ? Number(latitude) : 0, longitude != null ? Number(longitude) : 0).subscribe(res => {
         if (obj.id == res[0].stock.shoppingItem.id && res[0].stock.shoppingItem.name) {
           this.fuzzies.push(res);
+          console.log("this.fuzzies 1");
+          console.log(this.fuzzies);
           this.showAlert("Sucesso!", "Filtro aplicado com sucesso.", "success");
         }
       })
@@ -206,11 +208,13 @@ export class HomeComponent implements OnInit {
 
   readCheapestItems() {
     this.fuzzies = [];
-    this.allItems.forEach((obj) => {
+    this.allItems.forEach((obj, index) => {
 
       this.productsService.readCheapestItems(obj.id).subscribe(res => {
         if (obj.id == res[0].stock.shoppingItem.id && res[0].stock.shoppingItem.name) {
           this.fuzzies.push(res);
+          console.log("this.fuzzies 2");
+          console.log(this.fuzzies);
           this.showAlert("Sucesso!", "Filtro aplicado com sucesso.", "success");
         }
       })
@@ -221,11 +225,13 @@ export class HomeComponent implements OnInit {
     var latitude = localStorage.getItem("lat");
     var longitude = localStorage.getItem("long");
     this.fuzzies = [];
-    this.allItems.forEach((obj) => {
+    this.allItems.forEach((obj, index) => {
 
       this.productsService.readNearestSupplier(obj.id, latitude != null ? Number(latitude) : 0, longitude != null ? Number(longitude) : 0).subscribe(res => {
         if (obj.id == res[0].stock.shoppingItem.id && res[0].stock.shoppingItem.name) {
           this.fuzzies.push(res);
+          console.log("this.fuzzies 3");
+          console.log(this.fuzzies);
           this.showAlert("Sucesso!", "Filtro aplicado com sucesso.", "success");
         }
       })
