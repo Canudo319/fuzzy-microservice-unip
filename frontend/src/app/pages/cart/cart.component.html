@@ -6,12 +6,17 @@
                 <div class="product">
                     <img src="{{cartProduct.image}}" class="product_image">
                     <div class="col-md-3">
+                        <select name="selSupplier" id="selSupplier" class="custom-select">
+                            <option value="cartProduct.supplier[id].name"
+                                *ngFor="let suppliers of cartProduct.supplier; index as id;">
+                                {{cartProduct.supplier[id].name}}</option>
+                        </select>
                         <!-- <input type="radio" value="teste" name="teste"
                             *ngFor="let suppliers of cartProduct.supplier; index as id;"> -->
-                        <po-radio name="select" p-label="{{cartProduct.id}} - {{cartProduct.supplier[id].name}}"
+                        <!-- <po-radio name="select" p-label="{{cartProduct.id}} - {{cartProduct.supplier[id].name}}"
                             *ngFor="let suppliers of cartProduct.supplier; index as id;"
                             [p-options]="[{label: cartProduct.supplier[id].name , value: cartProduct.supplier[id].name}]">
-                        </po-radio>
+                        </po-radio> -->
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">

@@ -30,15 +30,13 @@ export class HomeComponent implements OnInit {
     this.productsService.read().subscribe(res => {
       this.allItems = res;
       this.allItems.forEach((obj) => {
-
         this.productsService.readBestItens(obj.id, latitude != null ? Number(latitude) : 0, longitude != null ? Number(longitude) : 0).subscribe(res => {
           document.querySelector(".po-row")?.querySelectorAll('[id^=product]').forEach((obj) => {
             let id = obj.id.split("_")[1].trim();
             if (id == res[0].stock.shoppingItem.id && res[0].stock.shoppingItem.name) {
               this.fuzzies.push(res);
             }
-          })
-
+          });
         });
       });
       console.log(this.fuzzies);
@@ -198,11 +196,8 @@ export class HomeComponent implements OnInit {
       this.productsService.readBestItens(obj.id, latitude != null ? Number(latitude) : 0, longitude != null ? Number(longitude) : 0).subscribe(res => {
         if (obj.id == res[0].stock.shoppingItem.id && res[0].stock.shoppingItem.name) {
           this.fuzzies.push(res);
-          console.log("this.fuzzies 1");
-          console.log(this.fuzzies);
-          this.showAlert("Sucesso!", "Filtro aplicado com sucesso.", "success");
         }
-      })
+      });
     });
   }
 

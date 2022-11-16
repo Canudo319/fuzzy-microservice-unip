@@ -42,6 +42,7 @@ export class CartComponent implements OnInit {
       if (obj.id == index) {
         this.cartItems = this.cartItems.filter(item => item.id !== obj.id);
       }
+      localStorage.setItem("cartObj", JSON.stringify(this.cartItems));
     })
   }
 

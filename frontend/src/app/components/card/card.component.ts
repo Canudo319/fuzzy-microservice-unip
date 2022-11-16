@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ProductsService } from './../../products.service';
-
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-card',
@@ -23,10 +23,17 @@ export class CardComponent implements OnInit {
   }
 
   addCart(id: any, productName: string, img: any, brand: any) {
-    var cartCounter = document.querySelector('.cart-count') as any;
-    cartCounter.innerText = Number(cartCounter.innerText) + 1;
-    if (this.cart.length != 0) {
+    // var cartCounter = document.querySelector('.cart-count') as any;
+    // cartCounter.innerText = Number(cartCounter.innerText) + 1;
 
+    this.productsService.readStockById(id).subscribe(res => {
+      if (res[0].stock == 0) {
+        return this.showAlert("Aviso!", "Produto não está disponível no estoque.", "warning");
+      }
+    });
+
+    if (JSON.parse(localStorage.getItem("cartObj")!).length != 0) {
+      this.cart = JSON.parse(localStorage.getItem("cartObj")!);
       this.cart.push(
         {
           "id": id,
@@ -58,4 +65,15 @@ export class CardComponent implements OnInit {
       localStorage.setItem('cartObj', strObj);
     });
   }
+
+  showAlert(title: any, text: any, icon: any) {
+    Swal.fire({
+      icon: icon,
+      title: title,
+      text: text
+    })
+  }
+
 }
+
+

@@ -40,7 +40,8 @@ export class ProductsService {
       map(response => {
         reqRet = response.body;
         return reqRet;
-      }));
+      }), catchError(e => this.handleWithError(e))
+    );
   }
 
   readBestItens(preferedItem: number, lat: number, long: number): Observable<Products[]> {
@@ -54,7 +55,8 @@ export class ProductsService {
       map(response => {
         reqRet = response.body;
         return reqRet;
-      }));
+      }), catchError(e => this.handleWithError(e))
+    );
   }
 
   readCheapestItems(preferedItem: number): Observable<Products[]> {
@@ -66,7 +68,8 @@ export class ProductsService {
       map(response => {
         reqRet = response.body;
         return reqRet;
-      }));
+      }), catchError(e => this.handleWithError(e))
+    );
   }
 
   readNearestSupplier(preferedItem: number, lat: number, long: number): Observable<Products[]> {
@@ -80,7 +83,8 @@ export class ProductsService {
       map(response => {
         reqRet = response.body;
         return reqRet;
-      }));
+      }), catchError(e => this.handleWithError(e))
+    );
   }
 
   update(id: any, object: any): Observable<Products> {
