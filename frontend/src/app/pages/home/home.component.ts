@@ -51,15 +51,20 @@ export class HomeComponent implements OnInit {
     var cartCounter = document.querySelector('.cart-count') as any;
     cartCounter.innerText = Number(cartCounter.innerText) + 1;
 
+
+
     var supplier: any[] = [];
     var supplierFinal: any[] = [];
     this.productsService.readStockById(id).subscribe(res => {
       for (var i = 0; i < res.length; i++) {
+        if (res[i].stock == 0) {
+          this.showAlert("Aviso!", "Esse produto não está mais disponível no estoque.", "warning");
+        }
         supplierFinal.push({ name: res[i].supplier.name, shoppingItemId: res[i].shoppingItem.id, supplierId: res[i].id })
       }
 
-      if (this.cart.length != 0) {
-
+      if (JSON.parse(localStorage.getItem('cartObj')!).length != 0) {
+        this.cart = JSON.parse(localStorage.getItem('cartObj')!);
         this.cart.push(
           {
             "id": id,
@@ -77,6 +82,7 @@ export class HomeComponent implements OnInit {
         )
 
       } else {
+        this.cart = [];
         this.cart.push(
           {
             "id": id,
@@ -92,6 +98,9 @@ export class HomeComponent implements OnInit {
       this.cart.forEach((obj) => {
         localStorage.setItem('cartObj', strObj);
       });
+
+      this.showAlert("Sucesso!", "Produto adicionado ao carrinho.", "success");
+
     })
   }
 
@@ -196,6 +205,7 @@ export class HomeComponent implements OnInit {
       this.productsService.readBestItens(obj.id, latitude != null ? Number(latitude) : 0, longitude != null ? Number(longitude) : 0).subscribe(res => {
         if (obj.id == res[0].stock.shoppingItem.id && res[0].stock.shoppingItem.name) {
           this.fuzzies.push(res);
+          this.showAlert("Sucesso!", "Filtro aplicado com sucesso.", "success");
         }
       });
     });
@@ -208,8 +218,6 @@ export class HomeComponent implements OnInit {
       this.productsService.readCheapestItems(obj.id).subscribe(res => {
         if (obj.id == res[0].stock.shoppingItem.id && res[0].stock.shoppingItem.name) {
           this.fuzzies.push(res);
-          console.log("this.fuzzies 2");
-          console.log(this.fuzzies);
           this.showAlert("Sucesso!", "Filtro aplicado com sucesso.", "success");
         }
       })
@@ -225,8 +233,6 @@ export class HomeComponent implements OnInit {
       this.productsService.readNearestSupplier(obj.id, latitude != null ? Number(latitude) : 0, longitude != null ? Number(longitude) : 0).subscribe(res => {
         if (obj.id == res[0].stock.shoppingItem.id && res[0].stock.shoppingItem.name) {
           this.fuzzies.push(res);
-          console.log("this.fuzzies 3");
-          console.log(this.fuzzies);
           this.showAlert("Sucesso!", "Filtro aplicado com sucesso.", "success");
         }
       })

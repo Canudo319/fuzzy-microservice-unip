@@ -74,7 +74,17 @@ export class CartComponent implements OnInit {
   }
 
   saveOrder() {
-
+    if (JSON.parse(localStorage.getItem('cartObj')!).length == 0) {
+      return this.showAlert("Aviso!", "Não é possível realizar o pedido, pois o carrinho está vazio.", "warning");
+    }
+    this.cartItems.forEach((obj, index) => {
+      index = index + 1;
+      var quantity = document.querySelector('#quantidadeCart_' + index) as any;
+      this.productsService.readQuantityDecrease(obj.id, Number(quantity.value)).subscribe(res => {
+        console.log(res);
+        this.showAlert("Sucesso!", "Pedido realizado com sucesso.", "success");
+      });
+    });
   }
 
 }

@@ -87,6 +87,19 @@ export class ProductsService {
     );
   }
 
+  readQuantityDecrease(id: any, quantity: number) {
+    let params = new HttpParams();
+    let reqRet: any = "";
+    params = params.append("id", id);
+    params = params.append("quantity", quantity);
+    return this.http.get<Products[]>(`${this.url}/stock/buy`, { observe: "response", params }).pipe(
+      map(response => {
+        reqRet = response.body;
+        return reqRet;
+      }), catchError(e => this.handleWithError(e))
+    );
+  }
+
   update(id: any, object: any): Observable<Products> {
     return this.http.put<Products>(this.url + "/" + id, object).pipe(map(obj => obj),
       catchError(e => this.handleWithError(e)));
