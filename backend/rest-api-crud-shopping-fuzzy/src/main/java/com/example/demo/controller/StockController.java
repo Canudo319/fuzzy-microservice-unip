@@ -109,9 +109,9 @@ public class StockController {
 		return new ResponseEntity<>(stockAtratividade, HttpStatus.OK);
 	}
 	
-	@GetMapping("/stock/buy/{id}")
+	@GetMapping("/stock/buy")
 	public ResponseEntity<DefaultReturn<Stock>> buyStock(
-			@PathVariable Long id,
+			@RequestParam(value = "id") Long id,
 			@RequestParam(value = "quantity", defaultValue = "1") Integer quantity){
 		Optional<Stock> stock = repository.findById(id);
 		if(!stock.isPresent()) {
